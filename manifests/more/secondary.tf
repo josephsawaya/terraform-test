@@ -3,6 +3,6 @@ resource "docker_container" "nginx3" {
   name = "con3"
   ports {
     internal = 80
-    external = 8002
+    external = 8003
   }
 }
