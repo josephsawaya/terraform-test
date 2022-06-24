@@ -1,4 +1,4 @@
-resource "docker_container" "nginx3" {
+resource "docker_container" "nginx2" {
   image = docker_image.nginx.latest
   name = "con2"
   ports {
