@@ -1,8 +1,8 @@
-resource "docker_container" "nginx5" {
+resource "docker_container" "nginx4" {
   image = docker_image.nginx.latest
-  name = "con3"
+  name = "con4"
   ports {
     internal = 80
-    external = 8003
+    external = 8004
   }
 }
