@@ -2,7 +2,7 @@ provider "kubernetes" {}
 
 resource "kubernetes_pod" "test" {
   metadata {
-    name = "terraform-example"
+    name = "terraform-example-1"
   }
 
   spec {
