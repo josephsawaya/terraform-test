@@ -1,18 +1,55 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
+provider "kubernetes" {}
+
+resource "kubernetes_pod" "test" {
+  metadata {
+    name = "terraform-example-1"
+    namespace = "argocd"
   }
-}
 
-# Configure the AWS Provider
-provider "aws" {
-  region = "us-east-1"
-}
+  spec {
+    container {
+      image = "nginx:1.21.4"
+      name  = "example"
 
-# Create a VPC
-resource "aws_vpc" "example" {
-  cidr_block = "10.0.0.0/16"
+      env {
+        name  = "environment"
+        value = "test"
+      }
+
+      port {
+        container_port = 80
+      }
+
+      liveness_probe {
+        http_get {
+          path = "/"
+          port = 80
+
+          http_header {
+            name  = "X-Custom-Header"
+            value = "Awesome"
+          }
+        }
+
+        initial_delay_seconds = 3
+        period_seconds        = 3
+      }
+    }
+
+    dns_config {
+      nameservers = ["1.1.1.1", "8.8.8.8", "9.9.9.9"]
+      searches    = ["example.com"]
+
+      option {
+        name  = "ndots"
+        value = 1
+      }
+
+      option {
+        name = "use-vc"
+      }
+    }
+
+    dns_policy = "None"
+  }
 }
